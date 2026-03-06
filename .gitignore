@@ -1,0 +1,8 @@
+#this files are not included
+
+.env
+.idea
+.venv
+data.json
+users.json
+
