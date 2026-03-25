@@ -16,9 +16,8 @@ if __name__ == '__main__':
 
 '''
 next:
-admin has allowed to signup,create,delete,update username
-normal users, can create,view, update,delete order
-organize modules
+admin delete,update username
+normal users, create,view,update,delete order
 create cache
 admin endpoint is separate 
 '''

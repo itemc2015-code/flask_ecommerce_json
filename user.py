@@ -8,6 +8,7 @@ from datetime import datetime,timedelta
 from jose import jwt
 from verify import verify_token
 
+
 user_blueprint = Blueprint("user",__name__)
 
 load_dotenv()
@@ -50,7 +51,7 @@ def user_login():
             verify_pwd = sha256_crypt.verify(password1, if_match['password'])
             if verify_pwd:
                 exp_time = datetime.utcnow() + timedelta(minutes=exp)
-                for_payload = {'id':if_match['id'],'username':if_match['username'],'exp':exp_time}
+                for_payload = {'id':if_match['id'],'username':if_match['username'],'exp':exp_time,'role':if_match['role']}
                 token = jwt.encode(for_payload,SECRET_KEY,algorithm=ALGORITHM)
                 return jsonify({"token":token,"token_type":"bearer"})
             return jsonify({"message":"wrong password"}),400
@@ -62,10 +63,18 @@ def user_login():
 
 @user_blueprint.route('/signup',methods=['post'])
 def user_signup():
+
+    for_payload = verify_token()
+    if not for_payload:
+        return jsonify({'message':'token not found'}),404
+    if for_payload['role'] != 'admin':
+        return jsonify({"message":"invalid"}),403
+
     client_request = request.get_json()
     username = client_request['username']
     password = client_request['password']
     role = client_request['role']
+
     users_list = []
     try:
         with open(users,'r') as f:
@@ -76,8 +85,6 @@ def user_signup():
         abort(500,description='invalid json file')
     if_match = next((u for u in users_list if u['username'] == username),None)
 
-    if role != 'admin':
-        return jsonify({"message":"no permission"}),403
     if if_match:
         return jsonify({"message":"username already exist"}),400
 
@@ -90,3 +97,8 @@ def user_signup():
     with open(users,'w') as f:
         json.dump(users_list,f,indent=4)
     return jsonify("successfully added"),201
+
+@user_blueprint.route('/delete',methods=['post'])
+def user_delete():
+    pass
+
