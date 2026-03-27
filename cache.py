@@ -23,3 +23,13 @@ def update_user_cache(user_update):
         return abort(404,description='json not found')
     except json.JSONDecodeError:
         return abort(500,description='invalid json file')
+
+def product_cache():
+    try:
+        with open(data,'r') as f:
+            prod_list = json.load(f)
+            return prod_list
+    except FileNotFoundError:
+        return abort(404,description='json not found')
+    except json.JSONDecodeError:
+        return abort(500,description='invalid json file')
