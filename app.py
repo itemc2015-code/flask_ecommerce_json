@@ -28,11 +28,10 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 '''
+#admin update username
+#create cache and apply to all
+#don't display user password on view users
+
 ongoing:
-test all functions
-admin update username
 normal users, create,view,update,delete order
-create cache and apply to all
-dont display user password on view users
-admin endpoint is separate 
 '''

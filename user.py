@@ -1,6 +1,5 @@
-from flask import abort,request,jsonify,Blueprint
-import json
-from passlib.context import CryptContext
+from flask import request,jsonify,Blueprint
+# from passlib.context import CryptContext
 from passlib.hash import sha256_crypt
 from dotenv import load_dotenv
 import os
@@ -8,13 +7,15 @@ from datetime import datetime,timedelta
 from jose import jwt
 from verify import verify_token
 from cache import user_cache,update_user_cache
+from model import Users
+from pydantic import ValidationError
 
 user_blueprint = Blueprint("user",__name__)
 
 load_dotenv()
 data = 'data.json'
 users = 'users.json'
-pwd_context = CryptContext(schemes=['bcrypt'],deprecated='auto')
+# pwd_context = CryptContext(schemes=['bcrypt'],deprecated='auto')
 SECRET_KEY = os.getenv('secretkey')
 ALGORITHM = os.getenv('algo')
 exp = 15
@@ -84,17 +85,59 @@ def user_delete():
     for_payload = verify_token()
     user_cached = user_cache()
 
-    if not for_payload:
-        return jsonify({'message':'token not found'}),401
-    if for_payload['role'] != 'admin':
-        return jsonify({"message":"invalid"}),403
-
     client_request = request.get_json()
     id = client_request['id']
 
-    if_match = next((u for u in user_cached if u['id'] == id),None)
-    if not if_match:
-        return jsonify({'message':'user id not found'}),404
-    user_cached.remove(if_match)
-    update_user_cache(user_cached)
-    return jsonify({'message':'successfully deleted'})
+    if not for_payload:
+        return jsonify({'message':'token not found'}),401
+    if for_payload['role'] == 'admin':
+        if_match = next((u for u in user_cached if u['id'] == id), None)
+        if not if_match:
+            return jsonify({'message': 'user id not found'}), 404
+        user_cached.remove(if_match)
+        update_user_cache(user_cached)
+        return jsonify({'message': 'successfully deleted'}),200
+    return jsonify({"message":"not allowed"}),403
+
+@user_blueprint.route('/update_pwd',methods=['post'])
+def update_password():
+    try:
+        for_payload = verify_token()
+        if not for_payload:
+            return jsonify({'message':'token not found'}),401
+
+        if for_payload['role'] != 'admin':
+            return jsonify({'message': 'no permission'}), 403
+
+        user_cached = user_cache()
+        client_request = request.get_json()
+        if not client_request:
+            return jsonify({'message':'invalid request'}),400
+
+        try:
+            data = Users(**client_request)
+        except ValidationError as e:
+            return jsonify({'message': e.errors()}),400
+
+        user_id = data.id
+        user_password = data.password
+
+        # if not user_id:
+        #     return jsonify({'message':'id cannot be blank'}),400
+        # if not user_password:
+        #     return jsonify({'message':'password is required'}),400
+
+        if_match = next((u for u in user_cached if user_id == u['id']), None)
+
+        if not if_match:
+            return jsonify({'message': 'user id not found'}), 401
+
+        new_pwd = sha256_crypt.hash(user_password)
+        if_match['password'] = new_pwd
+        update_user_cache(user_cached)
+        return jsonify({'message': 'successfully updated'}),200
+    except Exception as e:
+        print(f'server error {str(e)}')
+        return jsonify({'error message':'server error'}),500
+
+

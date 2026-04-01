@@ -4,7 +4,7 @@ from flask import jsonify
 
 #LOGIN
 url = "http://127.0.0.1:5000/user/login"
-data1 = {"username":"luffy","password":"1234"}
+data1 = {"username":"usoff","password":"1234"}
 response = requests.post(url,json=data1)
 
 data = response.json()
@@ -29,7 +29,7 @@ else:
 
 # #SIGNUP
 # url = "http://127.0.0.1:5000/user/signup"
-# data_signup = {"username":"brook","password":"1234","role":"admin"}
+# data_signup = {"username":"brook","password":"1234","role":"user"}
 # send_token = {'Authorization':f'Bearer {token}'}
 # response = requests.post(url,json=data_signup,headers=send_token)
 # print('status',response.status_code)
@@ -44,8 +44,16 @@ print('response',response.text)
 
 # #DELETE
 # url = "http://127.0.0.1:5000/user/delete"
-# delete_data = {"id": 6}
+# delete_data = {"id": 5}
 # send_token = {'Authorization':f'Bearer {token}'}
 # response = requests.post(url,json=delete_data,headers=send_token)
 # print(response.status_code)
-# print(response.json())
+# print(response.text)
+
+# #UPDATE PASSWORD
+# url = "http://127.0.0.1:5000/user/update_pwd"
+# update_data = {"id":4,"username":"nami","password":"1234","role":"user"}
+# send_token = {"Authorization":f"Bearer {token}"}
+# response = requests.post(url,json=update_data,headers=send_token)
+# print(response.status_code)
+# print(response.text)
