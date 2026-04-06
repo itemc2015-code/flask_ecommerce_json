@@ -15,3 +15,11 @@ def view_products():
         return jsonify({'message':'token not found'}),404
     return jsonify(product_cached),200
 
+@product_blueprint.route('/request_order',methods=['POST'])
+def req_order():
+    for_payload = verify_token()
+    product_cached = product_cache()
+    if not for_payload:
+        return jsonify({'message':'token not found'}),404
+
+

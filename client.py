@@ -35,25 +35,25 @@ else:
 # print('status',response.status_code)
 # print('response',response.text)
 
-#VIEW USERS
-url = "http://127.0.0.1:5000/user/view"
-send_token = {'Authorization': f'Bearer {token}'}
-response = requests.get(url,headers=send_token)
-print('status',response.status_code)
-print('response',response.text)
+# #VIEW USERS
+# url = "http://127.0.0.1:5000/user/view"
+# send_token = {'Authorization': f'Bearer {token}'}
+# response = requests.get(url,headers=send_token)
+# print('status',response.status_code)
+# print('response',response.text)
 
 # #DELETE
 # url = "http://127.0.0.1:5000/user/delete"
-# delete_data = {"id": 5}
+# delete_data = {"id": 4}
 # send_token = {'Authorization':f'Bearer {token}'}
 # response = requests.post(url,json=delete_data,headers=send_token)
 # print(response.status_code)
 # print(response.text)
 
-# #UPDATE PASSWORD
-# url = "http://127.0.0.1:5000/user/update_pwd"
-# update_data = {"id":4,"username":"nami","password":"1234","role":"user"}
-# send_token = {"Authorization":f"Bearer {token}"}
-# response = requests.post(url,json=update_data,headers=send_token)
-# print(response.status_code)
-# print(response.text)
+#UPDATE PASSWORD
+url = "http://127.0.0.1:5000/user/update_pwd"
+update_data = {"id":3,"username":"luffy","password":"1234","role":"user"}
+send_token = {"Authorization":f"Bearer {token}"}
+response = requests.post(url,json=update_data,headers=send_token)
+print(response.status_code)
+print(response.text)

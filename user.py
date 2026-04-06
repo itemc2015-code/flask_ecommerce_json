@@ -114,6 +114,9 @@ def update_password():
         if not client_request:
             return jsonify({'message':'invalid request'}),400
 
+        if not for_payload['username']:
+            return jsonify({'message':'username not found'}),404
+
         try:
             data = Users(**client_request)
         except ValidationError as e:
