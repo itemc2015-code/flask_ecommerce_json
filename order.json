@@ -1,0 +1,29 @@
+[
+    {
+        "order_id": 1,
+        "user_id": 3,
+        "items": [
+            {
+                "product_id": 3,
+                "item": "Milk Bars",
+                "quantity": 30,
+                "price": 819,
+                "total": 24570
+            },
+            {
+                "product_id": 6,
+                "item": "White Choc",
+                "quantity": 60,
+                "price": 1785,
+                "total": 107100
+            },
+            {
+                "product_id": 9,
+                "item": "Baker's Choco Chips",
+                "quantity": 90,
+                "price": 8008,
+                "total": 720720
+            }
+        ]
+    }
+]
