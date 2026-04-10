@@ -51,9 +51,28 @@ def order_request():
     new_items = {"product_id":product_id,"item":if_match['items'],"quantity":quantity,"price":if_match['price'],"total":total_item_price}
     ordered[0]['items'].append(new_items)
     save_order(ordered)
-    # print(check_product_id)
     return jsonify({'message':'successfully added'})
-#ITEMS HAS DUPLICATED
+
+@product_blueprint.route('/view_order',methods=['GET'])
+def view_orders():
+    view_ordered = view_order()
+    if not view_ordered:
+        return jsonify({'message':'no order'})
+    return jsonify(view_ordered)
+
+@product_blueprint.route('/update_order',methods=['POST'])
+def update_orders():
+    get_payload = verify_token()
+    if not get_payload:
+        return jsonify({'message':'token not found'}),401
+    client_request = request.get_json()
+    if not client_request:
+        return jsonify({'message':'invalid request'}),400
+    ordered = view_order()
+    if_match = next((o['product_id'] for o in ordered['items']),None)
+    print(if_match)
+
+
 
 
 

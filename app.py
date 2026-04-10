@@ -33,5 +33,6 @@ if __name__ == '__main__':
 #don't display user password on view users
 
 ongoing:
-normal users, create,view,update,delete order
+normal users, #create, #view, update, delete order
+grand total
 '''
