@@ -1,29 +1,37 @@
 [
     {
         "order_id": 1,
-        "user_id": 3,
+        "user_id": 4,
         "items": [
+            {
+                "product_id": 5,
+                "item": "Orange Choco",
+                "quantity": 16,
+                "price": 8463,
+                "total": 135408
+            },
             {
                 "product_id": 3,
                 "item": "Milk Bars",
-                "quantity": 30,
+                "quantity": 14,
                 "price": 819,
-                "total": 24570
+                "total": 11466
             },
             {
-                "product_id": 6,
-                "item": "White Choc",
-                "quantity": 60,
-                "price": 1785,
-                "total": 107100
+                "product_id": 1,
+                "item": "50% Dark Bites",
+                "quantity": 145,
+                "price": 5586,
+                "total": 809970
             },
             {
-                "product_id": 9,
-                "item": "Baker's Choco Chips",
-                "quantity": 90,
-                "price": 8008,
-                "total": 720720
+                "product_id": 10,
+                "item": "70% Dark Bites",
+                "quantity": 145,
+                "price": 2275,
+                "total": 329875
             }
-        ]
+        ],
+        "grand_total": 1286719
     }
 ]
